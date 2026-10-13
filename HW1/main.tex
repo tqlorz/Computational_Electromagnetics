@@ -1,0 +1,438 @@
+\documentclass[a4paper]{article}
+\usepackage{ctex}
+\usepackage[affil-it]{authblk}
+\usepackage[backend=bibtex,style=numeric]{biblatex}
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage{bm}
+
+\usepackage{geometry}
+\geometry{margin=1.5cm, vmargin={0pt,1cm}}
+\setlength{\topmargin}{-1cm}
+\setlength{\paperheight}{29.7cm}
+\setlength{\textheight}{25.3cm}
+
+\begin{document}
+% =================================================
+\title{计算电磁学 2027 秋冬作业一}
+
+\author{曾申昊 12631040
+  \thanks{邮箱: \texttt{3097714673@qq.com}
+                            \texttt{或} \texttt{12631040@zju.edu.cn}}}
+\affil{浙江大学}
+
+\date{更新时间: \today}
+
+\maketitle
+
+% ============================================
+\section*{Problem 2.2}
+ 
+Determine the distribution of electrostatic potential inside 
+the conducting rectangular boxes with cross sections shown in 
+Fig. 2.18.
+
+\begin{enumerate}
+   \item[(a)] box 1
+      \begin{gather*}
+         \nabla^2 U = 0, \quad -\frac{a}{2} < x < \frac{a}{2}, \quad -\frac{b}{2} < y < \frac{b}{2} \\
+         U\left(-\frac{a}{2}, y\right) = V_0 = U\left(\frac{a}{2}, y\right),\\
+         U\left(x, -\frac{b}{2}\right) = 0 = U\left(x, \frac{b}{2}\right)
+      \end{gather*}
+      使用分离变量法求解方程，将 \(U(x, y) = X(x)Y(y)\) 代入 Laplace equation。
+      \begin{gather*}
+         \nabla^2 (XY) = 0 \\
+         X''Y + XY'' = 0\\
+         \frac{X''}{X} + \frac{Y''}{Y} = 0
+      \end{gather*}
+      等价于
+      \begin{equation*}
+         \begin{cases}
+            X'' - \beta^2 X = 0 \\
+            Y'' + \beta^2 Y = 0
+         \end{cases}
+      \end{equation*}
+      令 $\tilde{y}=y+b/2\in(0,b)$，并利用上下边界的齐次条件可得 $\beta_n = \frac{n\pi}{b}$ 以及：
+      \begin{equation*}
+         U(x,y)=\sum_{n=1}^{\infty}X_n(x)
+         \sin\!\left(\frac{n\pi\tilde{y}}{b}\right)
+      \end{equation*}
+      代入 Laplace 方程可得
+      \begin{equation*}
+         X_n''-\left(\frac{n\pi}{b}\right)^2X_n=0.
+      \end{equation*}
+      两个竖直边界上的电势相同，因此取偶解并由边界条件确定
+      \begin{equation*}
+         X_n(x)=A_n\frac{\cosh\left(\frac{n\pi x}{b}\right)}{\cosh\left(\frac{n\pi a}{2b}\right)}.
+      \end{equation*}
+      在 $x=\pm \frac{a}{2}$ 处，$U=V_0$，故需将常数展开为正弦级数：
+      \begin{equation*}
+         V_0=\sum_{n=1}^{\infty}A_n
+         \sin\!\left(\frac{n\pi\tilde{y}}{b}\right),\qquad
+         A_n=\frac{2V_0}{b}\int_0^b\sin\!\left(\frac{n\pi\tilde{y}}{b}\right)\,d\tilde{y}
+         =\begin{cases}\displaystyle \frac{4V_0}{n\pi},&n\text{ odd},\\[4pt]0,&n\text{ even}.
+         \end{cases}
+      \end{equation*}
+      因而 box 1 内部的电势分布为
+      \begin{equation*}
+         U(x,y)=\frac{4V_0}{\pi}\sum_{m=0}^{\infty}\frac{1}{2m+1}
+         \frac{\cosh\!\left(\dfrac{(2m+1)\pi x}{b}\right)}
+              {\cosh\!\left(\dfrac{(2m+1)\pi a}{2b}\right)}
+         \sin\!\left[\frac{(2m+1)\pi}{b}\left(y+\frac b2\right)\right]
+      \end{equation*}
+   \item[(b)] box 2
+      \begin{gather*}
+         \nabla^2 U = 0, \quad x>0, \quad 0 < y < b \\
+         U\left(0, y\right) = V_0,\\
+         U\left(x, 0\right) = 0 = U\left(x, b\right)
+      \end{gather*}
+      同上一小问可得 $\beta_n = \frac{n\pi}{b}$ 以及：
+      \begin{equation*}
+         U(x,y)=\sum_{n=1}^{\infty}X_n(x)
+         \sin\!\left(\frac{n\pi y}{b}\right)
+      \end{equation*}
+      为了使得正无穷远处的值有限，因此取指数衰减解：
+      \begin{equation*}
+         X_n(x)=A_n e^{-\frac{n\pi x}{b}}
+      \end{equation*}
+      在 $x=0$ 处，$U=V_0$，故需将常数展开为正弦级数：
+      \begin{equation*}
+         V_0=\sum_{n=1}^{\infty}A_n
+         \sin\!\left(\frac{n\pi y}{b}\right),\qquad
+         A_n=\frac{2V_0}{b}\int_0^b\sin\!\left(\frac{n\pi y}{b}\right)\,dy
+         =\begin{cases}\displaystyle \frac{4V_0}{n\pi},&n\text{ odd},\\[4pt]0,&n\text{ even}.
+         \end{cases}
+      \end{equation*}
+      因而 box 1 内部的电势分布为
+      \begin{equation*}
+         U(x,y)=\frac{4V_0}{\pi}\sum_{m=0}^{\infty}\frac{1}{2m+1}
+         e^{-\frac{(2m+1)\pi x}{b}}
+         \sin\!\left[\frac{(2m+1)\pi}{b}y\right]
+      \end{equation*}
+\end{enumerate}
+
+\section*{Problem 2.4}
+
+Find the solution \(U\) of:
+
+\begin{enumerate}
+   \item[(a)] Laplace equation
+      \begin{align*}
+         \nabla^2 U &= 0, \quad 0 < x, y < \pi \\
+         U_x(0, y) &= 0 = U_x(\pi, y), \quad U(x, 0) = 0, \\
+         U(x, \pi) &= x, \quad 0 < x < \pi
+      \end{align*}
+      使用分离变量法求解方程，将 \(U(x, y) = X(x)Y(y)\) 代入 Laplace equation。
+      \begin{gather*}
+         \nabla^2 (XY) = 0 \\
+         X''Y + XY'' = 0\\
+         \frac{X''}{X} + \frac{Y''}{Y} = 0
+      \end{gather*}
+      等价于
+      \begin{equation*}
+         \begin{cases}
+            X'' + \beta^2 X = 0 \\
+            Y'' - \beta^2 Y = 0
+         \end{cases}
+      \end{equation*}
+      利用上下边界的导数齐次条件可得 $\beta_n = n$ 以及：
+      \begin{equation*}
+         U(x,y)=\sum_{n=1}^{\infty}\cos\!\left(n x\right)
+         Y_n(y)
+      \end{equation*}
+      代入 Laplace 方程可得
+      \begin{equation*}
+         Y_n''-\left(\frac{n\pi}{b}\right)^2Y_n=0.
+      \end{equation*}
+      由边界条件 $U(x,0)=0$ 确定 
+      \begin{equation*}
+         Y_n(y) = B_n \sinh\left( n y\right)
+      \end{equation*}
+      在 $y=\pi$ 处，$U=x$，故需将 $x$ 展开：
+      \begin{equation*}
+         x = \sum_{n=1}^{\infty} B_n \cos(nx) \sinh\left(n \pi\right)
+      \end{equation*}
+      \begin{equation*}
+         \begin{aligned}
+            B_n &= \frac{2}{\pi\sinh(n \pi)}\int_0^\pi x \cos(nx) \, dx \\
+            &= \frac{2}{\pi\sinh(n \pi)}\left[\frac{\pi}{n}\sin(n \pi) + \frac{1}{n^2}\cos(n \pi) - \frac{1}{n^2}\right] \\
+            &= \frac{2}{\pi\sinh(n \pi)}\left[\frac{1}{n^2}(-1)^n - \frac{1}{n^2}\right] \\
+            &= \frac{2((-1)^n - 1)}{n^2\pi\sinh(n \pi)}
+         \end{aligned}
+      \end{equation*}
+      因而 $U(x,y)$ 为
+      \begin{equation*}
+         \begin{aligned}
+            U(x,y) &= \sum_{n=1}^{\infty} \frac{2((-1)^n - 1)}{n^2\pi\sinh(n \pi)} \cos(nx) \sinh(n y)\\
+            &= \sum_{m=0}^{\infty} \frac{-4}{(2m+1)^2\pi\sinh((2m+1) \pi)} \cos((2m+1)x) \sinh((2m+1) y)
+         \end{aligned}
+      \end{equation*}
+   \item[(b)] Heat equation
+      \begin{align*}
+         kU_{xx} &= U_t, \quad 0 \leq x \leq 1, \; t > 0 \\
+         U(0, t) &= 0, \; t > 0, \quad U(1, t) = 1, \; t > 0 \\
+         U(x, 0) &= 0, \quad 0 \leq x \leq 1
+      \end{align*}
+      令 $U(x, t) = x + \tilde{U}(x,t)$ 可得
+      \begin{align*}
+         k\tilde{U}_{xx} &= \tilde{U}_t, \quad 0 \leq x \leq 1, \; t > 0 \\
+         \tilde{U}(0, t) &= 0, \; t > 0, \quad \tilde{U}(1, t) = 0, \; t > 0 \\
+         \tilde{U}(x, 0) &= -x, \quad 0 \leq x \leq 1
+      \end{align*}
+      使用分离变量法求解方程，将 \(\tilde{U}(x, t) = X(x)T(t)\) 代入 heat equation。
+      \begin{gather*}
+         kX''T = XT'\\
+         k\frac{X''}{X} = \frac{T'}{T}
+      \end{gather*}
+      等价于
+      \begin{equation*}
+         \begin{cases}
+            X'' + \frac{\lambda}{k} X = 0 \\
+            T' + \lambda T = 0
+         \end{cases}
+      \end{equation*}
+      令 $\lambda = kn^2\pi^2$ 得到
+      \begin{equation*}
+         \begin{cases}
+            X'' + n^2\pi^2 X = 0 \\
+            T' + kn^2\pi^2 T = 0
+         \end{cases}
+      \end{equation*}
+      由边界条件易得 $X_n(x) = \sin(n\pi x)$，
+      解的整体形式可以写为
+      \begin{equation*}
+         \tilde{U}(x, t) = \sum_{n=1}^{\infty} A_n \sin(n\pi x) e^{-kn^2\pi^2 t}
+      \end{equation*}
+      由初始条件 $\tilde{U}(x, 0) = -x$ 可得
+      \begin{equation*}
+         -x = \sum_{n=1}^{\infty} A_n \sin(n\pi x)
+      \end{equation*}
+      因而
+      \begin{equation*}
+         A_n = 2\int_0^1 (-x) \sin(n\pi x) \, dx
+         = \frac{2}{n\pi}(-1)^n
+      \end{equation*}
+      最终得到
+      \begin{equation*}
+         U(x, t) = x + \sum_{n=1}^{\infty} \frac{2}{n\pi}(-1)^n \sin(n\pi x) e^{-kn^2\pi^2 t}
+      \end{equation*}
+   \item[(c)] Wave equation
+      \begin{align*}
+         a^2 U_{xx} &= U_{tt}, \quad 0 \leq x \leq 1, \; t > 0 \\
+         U(0, t) &= 0 = U(1, t), \; t > 0 \\
+         U(x, 0) &= 0, \quad U_t(x, 0) = x
+      \end{align*}
+      使用分离变量法求解方程，将 \(U(x, y) = X(x)T(t)\) 代入 wave equation。
+      \begin{gather*}
+         a^2 X''T = XT''\\
+         a^2\frac{X''}{X} = \frac{T''}{T}
+      \end{gather*}
+      等价于
+      \begin{equation*}
+         \begin{cases}
+            X'' + \frac{\beta^2}{a^2} X = 0 \\
+            T'' + \beta^2 T = 0
+         \end{cases}
+      \end{equation*}
+      并利用上下边界的齐次条件可得 $\beta_n = na\pi$ 以及：
+      \begin{equation*}
+         U(x,t)=\sum_{n=1}^{\infty}\sin\left(n\pi x\right)T_n(t)
+      \end{equation*}
+      代入可得
+      \begin{equation*}
+         T'' + (na\pi)^2 T = 0
+      \end{equation*}
+      由边界条件 $U(x,0) = 0$ 确定
+      \begin{equation*}
+         T(t) = A_n\sin\left(na\pi t\right)
+      \end{equation*}
+      由边界条件 $U_t(x,0) = x$ 可得
+      \begin{equation*}
+         x = \sum_{n=1}^{\infty} \sin\left(n\pi x\right) A_n (na\pi)
+      \end{equation*}
+      \begin{equation*}
+         A_n = \frac{2}{na\pi}\int_0^1 x \sin\left(n\pi x\right) \, dx
+         = \frac{-2}{an^2\pi^2}(-1)^n
+      \end{equation*}
+      因而
+      \begin{equation*}
+         U(x,t) = \sum_{n=1}^{\infty} \frac{-2}{an^2\pi^2}(-1)^n \sin\left(n\pi x\right) \sin\left(na\pi t\right)
+      \end{equation*}
+\end{enumerate}
+
+\section*{Problem 2.5}
+
+Find the solution \(\Phi\) of:
+
+\begin{enumerate}
+   \item[(a)] Laplace equation
+      \begin{align*}
+         \nabla^2 \Phi &= 0, \qquad \rho \geq 1, \, 0 < \phi < \pi \\
+         \Phi(1, \phi) &= \sin \phi, \qquad \Phi(\rho, 0) = \Phi(\rho, \pi) = 0
+      \end{align*}
+      在极坐标系中，Laplace 方程为
+      \begin{equation*}
+         \frac{\partial^2\Phi}{\partial \rho^2}
+         +\frac{1}{\rho}\frac{\partial\Phi}{\partial\rho}
+         +\frac{1}{\rho^2}\frac{\partial^2\Phi}{\partial\phi^2}=0.
+      \end{equation*}
+      令 $\Phi(\rho,\phi)=R(\rho) F(\phi)$，代入并乘以
+      $\rho^2/(R F)$，得
+      \begin{equation*}
+         \frac{\rho^2R''+\rho R'}{R}
+         =-\frac{ F''}{ F}=\lambda.
+      \end{equation*}
+      因此分离后的方程为
+      \begin{equation*}
+         \begin{cases}
+             F''+\lambda F=0,\\
+            \rho^2R''+\rho R'-\lambda R=0.
+         \end{cases}
+      \end{equation*}
+      由 $ F(0)= F(\pi)=0$ 可得
+      \begin{equation*}
+         \lambda_n=n^2,\qquad  F_n(\phi)=\sin(n\phi),\qquad
+         n=1,2,\ldots
+      \end{equation*}
+      相应的径向方程为 Euler 方程，其解为
+      \begin{equation*}
+         R_n(\rho)=A_n\rho^n+B_n\rho^{-n}.
+      \end{equation*}
+      对外部区域要求电势在 $\rho\to\infty$ 时有界，
+      故只保留衰减项 $\rho^{-n}$，于是
+      \begin{equation*}
+         \Phi(\rho,\phi)=\sum_{n=1}^{\infty}B_n\rho^{-n}\sin(n\phi).
+      \end{equation*}
+      在 $\rho=1$ 处利用边界条件
+      \begin{equation*}
+         \sin\phi=\sum_{n=1}^{\infty}B_n\sin(n\phi),
+      \end{equation*}
+      由正弦函数的正交性可得 $B_1=1$，其余 $B_n=0$。所以
+      \begin{equation*}
+         \Phi(\rho,\phi)=\frac{\sin\phi}{\rho}
+      \end{equation*}
+   \item[(b)] Laplace equation
+      \begin{align*}
+         \nabla^2 \Phi &= 0, \\
+         \Phi(\rho, \phi, 0) &= 0 = \Phi(\rho, \phi, L), \Phi(a, \phi, z) = 1
+      \end{align*}
+      展开 Laplace 方程可得
+      \begin{align*}
+         \frac{1}{\rho} \frac{\partial}{\partial \rho} \left(\rho \frac{\partial \Phi}{\partial \rho}\right) + \frac{1}{\rho^2} \frac{\partial^2 \Phi}{\partial \phi^2} + \frac{\partial^2 \Phi}{\partial z^2}&= 0
+      \end{align*}
+      令$\Phi(\rho, \phi, z) = R(\rho) F(\phi) Z(z)$并代入上述方程，得
+      \begin{align*}
+         \frac{\rho}{R} \frac{d}{d\rho} \left( \rho \frac{dR}{d\rho} \right) + \frac{\rho^2}{Z} \frac{d^2 Z}{dz^2}= -\frac{1}{F} \frac{d^2 F}{d\phi^2}
+      \end{align*}
+      逐步分离可得
+      \begin{equation*}
+         \begin{cases}
+            \rho^2R'' + \rho R' - (n^2 + \mu^2\rho^2) R = 0, \\
+            F'' + n^2 F = 0, \\
+            Z'' + \mu^2 Z = 0
+         \end{cases}
+      \end{equation*}
+      由边界条件可知，$Z(0) = Z(L) = 0$，因此
+      \begin{equation*}
+         Z_m(z) = \sin\left(\frac{m\pi z}{L}\right)
+      \end{equation*}
+      本题的边界值都与 \(\phi\) 无关，圆柱区域也具有旋转对称性，因此可以直接取
+      \begin{equation*}
+         F(\phi) = 1, \qquad n = 0
+      \end{equation*}
+      因此径向方程可以写为
+      \begin{equation*}
+         \rho^2R'' + \rho R' - \left(\frac{m\pi}{L}\right)^2\rho^2 R = 0
+      \end{equation*}
+      这是一个 Bessel 方程，其解为 Bessel 函数，由于函数值在 $\rho =0 $ 处应保持有限，可得
+      \begin{equation*}
+         R(\rho) = A_m J_0\left(\frac{m\pi}{L} \rho\right)
+      \end{equation*}
+      解的形式可以写为
+      \begin{equation*}
+         \Phi(\rho, \phi, z) = \sum_{m=1}^{\infty} A_m J_0\left(\frac{m\pi}{L} \rho\right) \sin\left(\frac{m\pi z}{L}\right)
+      \end{equation*}
+      由 $\Phi(a, \phi, z) = 1$ 可得
+      \begin{equation*}
+         A_m = \frac{1}{J_0\left(\frac{m\pi}{L} a\right)}\frac{2(1-(-1)^{m})}{m\pi}
+      \end{equation*}
+      因此最终的解为
+      \begin{equation*}
+         \begin{aligned}
+            \Phi(\rho, \phi, z) &= \sum_{m=1}^{\infty} \frac{2(1-(-1)^{m})}{m\pi}\frac{J_0\left(\frac{m\pi}{L}\rho\right)}{J_0\left(\frac{m\pi}{L} a\right)} \sin\left(\frac{m\pi z}{L}\right)\\
+            &= \sum_{q=0}^{\infty} \frac{4}{(2q+1)\pi}\frac{J_0\left(\frac{(2q+1)\pi}{L}\rho\right)}{J_0\left(\frac{(2q+1)\pi}{L} a\right)} \sin\left(\frac{(2q+1)\pi z}{L}\right)
+         \end{aligned}
+      \end{equation*}
+   \item[(c)] Heat equation
+      \begin{align*}
+         \Phi_t &= k \nabla^2 \Phi, \quad 0 \leq \rho \leq a, \, 0 \leq \phi < 2\pi, \, t > 0, \\
+         \Phi(a, \phi, t) &= 0, \quad
+         \Phi(\rho, \phi, 0) = \rho^2 \cos(2\phi).
+      \end{align*}
+      初始条件与边界条件均与 $z$ 无关，因此解也与 $z$ 无关。令
+      \begin{equation*}
+         \Phi(\rho, \phi, t) = R(\rho) F(\phi) T(t)
+      \end{equation*}
+      并代入二维极坐标下的热方程，得
+      \begin{equation*}
+         \frac{T'}{kT} = 
+         \frac{R''}{R} + \frac{1}{\rho}\frac{R'}{R} + \frac{1}{\rho^2}\frac{F''}{F}
+      \end{equation*}
+      取分离常数为 $-\lambda^2$，再分离角向变量，可得
+      \begin{equation*}
+         \begin{cases}
+            T'+k\lambda^2T=0, \\
+            F''+n^2F=0,\\
+            \rho^2R''+\rho R'+(\lambda^2\rho^2-n^2)R=0.
+         \end{cases}
+      \end{equation*}
+      角向周期性要求 $n$ 为非负整数，而初始条件的角向部分为
+      $\cos(2\phi)$，故只需取
+      \begin{equation*}
+         n=2,\qquad F(\phi)=\cos(2\phi).
+      \end{equation*}
+      相应的径向方程为二阶 Bessel 方程
+      \begin{equation*}
+         \rho^2R''+\rho R'+(\lambda^2\rho^2-4)R=0,
+      \end{equation*}
+      其通解为
+      \begin{equation*}
+         R(\rho)=C J_2(\lambda\rho)+D Y_2(\lambda\rho).
+      \end{equation*}
+      因为区域包含 $\rho=0$，而 $Y_2$ 在原点发散，所以 $D=0$。
+      由边界条件 $R(a)=0$ 可得
+      \begin{equation*}
+         J_2(\lambda a)=0.
+      \end{equation*}
+      记 $j_{2,m}$ 为 $J_2$ 的第 $m$ 个正零点，则
+      \begin{equation*}
+         \lambda_m=\frac{j_{2,m}}{a},\qquad
+         T_m(t)=\exp\!\left(-\frac{k j_{2,m}^2}{a^2}t\right).
+      \end{equation*}
+      因此解可展开为
+      \begin{equation*}
+         \Phi(\rho,\phi,t)=\cos(2\phi)\sum_{m=1}^{\infty}A_m
+         J_2\!\left(\frac{j_{2,m}}{a}\rho\right)
+         \exp\!\left(-\frac{k j_{2,m}^2}{a^2}t\right).
+      \end{equation*}
+      由初始条件和 Fourier--Bessel 正交性可得
+      \begin{align*}
+         A_m
+         &=\frac{\displaystyle\int_0^a \rho^3
+         J_2\!\left(\frac{j_{2,m}}{a}\rho\right)\,d\rho}
+         {\displaystyle\int_0^a \rho
+         J_2^2\!\left(\frac{j_{2,m}}{a}\rho\right)\,d\rho}\\
+         &=\frac{2a^2}{j_{2,m}J_3(j_{2,m})}.
+      \end{align*}
+      最终得到
+      \begin{equation*}
+         \Phi(\rho,\phi,t)=2a^2\cos(2\phi)
+         \sum_{m=1}^{\infty}
+         \frac{J_2\!\left(\dfrac{j_{2,m}}{a}\rho\right)}
+         {j_{2,m}J_3(j_{2,m})}
+         \exp\!\left(-\frac{k j_{2,m}^2}{a^2}t\right).
+      \end{equation*}
+\end{enumerate}
+
+% ===============================================
+
+\end{document}
